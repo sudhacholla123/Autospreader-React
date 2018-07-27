@@ -6,6 +6,10 @@ import App from "./containers/App/App";
 import asyncComponent from "./helpers/AsyncFunc";
 import Auth0 from "./helpers/auth0";
 import AutospreaderData from "./containers/Tables/AutospreaderData"
+import SpreadComOrders from "./containers/Tables/SpreadComOrders"
+import card from "./containers/Tables/card"
+import MpsTable from "./containers/Tables/MpsTable"
+import spreadCal from "./containers/Tables/SpreadCal";
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   <Route
@@ -77,6 +81,22 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
         <Route
           path="/autospreader"
           component = {AutospreaderData}
+        />
+        <Route
+          path="/card"
+          component = {card}
+        />
+        <Route
+          path="/spreadlogs"
+          component = {SpreadComOrders}
+        />
+         <Route
+          path="/mpstable"
+          component = {MpsTable}
+        />
+         <Route
+          path="/spread"
+          component = {spreadCal}
         />
         <RestrictedRoute
           path="/dashboard"

@@ -20,7 +20,7 @@ import LayoutContentWrapper from "../../components/utility/layoutWrapper.js";
 import Tabs, { TabPane } from '../../components/uielements/tabs';
 import TableDemoStyle from '../Tables/antTables/demo.style';
 import fakeData from '../Tables/fakeData';
-import {tableinfos} from '../Tables/fbTables/configs';
+import { tableinfos } from '../Tables/fbTables/configs';
 import * as TableViews from '../Tables/antTables/tableViews/';
 
 
@@ -39,10 +39,14 @@ import ContentHolder from '../../components/utility/contentHolder';
 import IntlMessages from '../../components/utility/intlMessages';
 import Button from "../../components/uielements/button";
 import Card from '../Uielements/Card/card.style';
+import AutospreaderData from '../Tables/AutospreaderData';
+import SpreadComOrders from '../Tables/SpreadComOrders'
+import MpsTable from '../Tables/MpsTable'
+import SpreadCal from '../Tables/SpreadCal';
 
 
 const dataList = new fakeData(5);
-console.log(dataList);
+// console.log(dataList);
 
 const Option = SelectOption;
 
@@ -53,17 +57,10 @@ export class App extends Component {
   state = {
     dataSource: []
   };
-  handleChange = value => {
-    this.setState({
-      dataSource:
-        !value || value.indexOf('@') >= 0
-          ? []
-          : [`${value}@gmail.com`, `${value}@163.com`, `${value}@qq.com`]
-    });
-  };
+
   renderTable(tableInfo) {
     let Component;
-    Component = TableViews.GroupView;
+    Component = TableViews.SimpleView;
     return <Component tableInfo={tableInfo} dataList={dataList} />;
   }
   render() {
@@ -71,7 +68,6 @@ export class App extends Component {
     const { locale, selectedTheme, height } = this.props;
     const currentAppLocale = AppLocale[locale];
     const appHeight = window.innerHeight;
-
     const rowStyle = {
       width: '100%',
       display: 'flex',
@@ -83,68 +79,81 @@ export class App extends Component {
     const gutter = 16;
     return (
       <LocaleProvider locale={currentAppLocale.antd}>
-          <ThemeProvider theme={themes[selectedTheme]}>
-            <AppHolder>
-              <Layout style={{ height: appHeight }}>
-                <Debounce time="1000" handler="onResize">
-                  <WindowResizeListener
-                    onResize={windowSize =>
-                      this.props.toggleAll(
-                        windowSize.windowWidth,
-                        windowSize.windowHeight
-                      )
-                    }
-                  />
-                </Debounce>
-                <Topbar url={url} />
-                <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
-                  <Sidebar url={url} />
-                  <Layout
-                    className="isoContentMainLayout"
+        <ThemeProvider theme={themes[selectedTheme]}>
+          <AppHolder>
+            <Layout style={{ height: appHeight }}>
+              <Debounce time="1000" handler="onResize">
+                <WindowResizeListener
+                  onResize={windowSize =>
+                    this.props.toggleAll(
+                      windowSize.windowWidth,
+                      windowSize.windowHeight
+                    )
+                  }
+                />
+              </Debounce>
+              <Topbar url={url} />
+              <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
+                <Sidebar url={url} />
+                <Layout
+                  className="isoContentMainLayout"
+                  style={{
+                    height: height
+                  }}
+                >
+                  <Content
+                    className="isomorphicContent"
                     style={{
-                      height: height
+                      padding: '70px 0 0',
+                      flexShrink: '0',
+                      background: '#f1f3f6',
+                      position: 'relative'
                     }}
                   >
-                    <Content
-                      className="isomorphicContent"
-                      style={{
-                        padding: '70px 0 0',
-                        flexShrink: '0',
-                        background: '#f1f3f6',
-                        position: 'relative'
-                      }}
-                    >
                     <LayoutContentWrapper>
+
                       <TableDemoStyle className="isoLayoutContent">
-                        <Tabs className="isoTableDisplayTab">
-                          {tableinfos.map(tableInfo => (
+                        <IntlMessages id="uiElements.cards.grid" />
+                        <Tabs className="isoTableDisplayTab" >
+
+                          {/* {tableinfos.map(tableInfo => (
                             <TabPane tab={tableInfo.title} key={tableInfo.value}>
                               {this.renderTable(tableInfo)}
                             </TabPane>
-                          ))}
+                          ))} */}
+                          {/* To dispaly Grid */}
+                          <AutospreaderData />
+                        </Tabs>
+                      </TableDemoStyle>
+                    </LayoutContentWrapper>
+                    <LayoutContentWrapper>
+                      <TableDemoStyle className="isoLayoutContent" >
+                        <IntlMessages id="uiElements.cards.spread" />
+                        <Tabs className="isoTableDisplayTab">
+                          <SpreadCal />
                         </Tabs>
                       </TableDemoStyle>
                     </LayoutContentWrapper>
                     <LayoutWrapper>
-                      <PageHeader>
+                      <PageHeader newProp="newPropValue">
                         <IntlMessages id="forms.input.header" />
                       </PageHeader>
                       <Row style={rowStyle} gutter={gutter} justify="start">
-                          <Col md={24} sm={24} xs={24} style={colStyle}>
-                            <Box
-                              subtitle={<IntlMessages id="forms.input.groupSubTitle" />}
-                            >
-                              <ContentHolder>
-                                <InputGroup size="large" style={{ marginBottom: '15px' }}>
-                                  <Col span="6">
-                                    X
+                        <Col md={24} sm={24} xs={24} style={colStyle}>
+                          <Box
+                            subtitle={<IntlMessages id="forms.input.groupSubTitle" />}
+                          >
+                            <ContentHolder>
+                              <InputGroup size="large" style={{ marginBottom: '15px' }}>
+                                <Col span="6">
+                                  X
                                     <Input defaultValue="" />
-                                  </Col>
-                                  <Col span="6">
-                                    Y
+                                </Col>
+                                <Col span="6">
+                                  Y
                                     <Input defaultValue="" />
-                                  </Col>
-                                  <Col span="6">
+                                </Col>
+                                <Col span="6">
                                   <Col>WORK EX</Col>
                                   <Select defaultValue="Working-Order">
                                     <Option value="Zhejiang">Bitmex</Option>
@@ -152,16 +161,16 @@ export class App extends Component {
                                     <Option value="Jiangsu">Cexio</Option>
                                     <Option value="Jiangsu">Flyer</Option>
                                   </Select>
-                                  </Col>
-                                  <Col span="6">
+                                </Col>
+                                <Col span="6">
                                   <Col>WORK TRADING</Col>
                                   <Select defaultValue="Working-Order-Type">
                                     <Option value="Zhejiang">Margin</Option>
                                     <Option value="Jiangsu">Exchange</Option>
                                   </Select>
-                                  </Col>
-                                </InputGroup>
-                                <InputGroup compact style={{ marginBottom: '15px' }}>
+                                </Col>
+                              </InputGroup>
+                              <InputGroup compact style={{ marginBottom: '15px' }}>
                                 <Col span="6">
                                   <Col>HEDGE EX</Col>
                                   <Select defaultValue="Hedge-Order">
@@ -170,148 +179,121 @@ export class App extends Component {
                                     <Option value="Jiangsu">Cexio</Option>
                                     <Option value="Jiangsu">Flyer</Option>
                                   </Select>
-                                  </Col>
-                                  <Col span="6">
+                                </Col>
+                                <Col span="6">
                                   <Col>HEDGE TRADING</Col>
                                   <Select defaultValue="Hedge-Order-Type">
                                     <Option value="Zhejiang">Margin</Option>
                                     <Option value="Jiangsu">Exchange</Option>
                                   </Select>
-                                  </Col>
-                                  <Col span="6">
-                                    REQUIRED SPREAD
+                                </Col>
+                                <Col span="6">
+                                  REQUIRED SPREAD
                                     <Input defaultValue="" />
-                                  </Col>
-                                  <Col span="6">
-                                    QUANTITY(BTC)
+                                </Col>
+                                <Col span="6">
+                                  QUANTITY(BTC)
                                     <Input defaultValue="" />
-                                  </Col>
-                                </InputGroup>
-                              </ContentHolder>
-                              <Button type="primary" className="isoOrderBtn">
-                                Place Order
+                                </Col>
+                              </InputGroup>
+                            </ContentHolder>
+                            <Button type="primary" className="isoOrderBtn">
+                              Place Order
                               </Button>
-                            </Box>
-                          </Col>
-                        </Row>
-                      </LayoutWrapper>
-                      <LayoutWrapper>
+                          </Box>
+                        </Col>
+                      </Row>
+                    </LayoutWrapper>
+                    <LayoutWrapper>
                       <Row style={rowStyle} gutter={gutter} justify="start">
-                          <Col span={24} style={colStyle}>
-                            <Box
-                              title={<IntlMessages id="uiElements.cards.gridCard" />}
-                            >
-                              <Row>
-                                <ContentHolder style={{ overflow: 'hidden' }}>
-                                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                    <Card
-                                      title={<IntlMessages id="uiElements.cards.Bitmex" />}
-                                    >
-                                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                                    </Card>
-                                  </Col>
-                                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                    <Card
-                                      title={<IntlMessages id="uiElements.cards.Bitfinex" />}
-                                    >
-                                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                                    </Card>
-                                  </Col>
-                                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                    <Card
-                                      title={<IntlMessages id="uiElements.cards.Cexio" />}
-                                    >
-                                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                                    </Card>
-                                  </Col>
-                                </ContentHolder>
-                              </Row>
-                              <Row>
-                                <ContentHolder style={{ overflow: 'hidden' }}>
-                                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                    <Card
-                                      title={<IntlMessages id="uiElements.cards.Bitmex" />}
-                                    >
-                                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                                    </Card>
-                                  </Col>
-                                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                    <Card
-                                      title={<IntlMessages id="uiElements.cards.Bitfinex" />}
-                                    >
-                                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                                    </Card>
-                                  </Col>
-                                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                    <Card
-                                      title={<IntlMessages id="uiElements.cards.Cexio" />}
-                                    >
-                                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                                    </Card>
-                                  </Col>
-                                </ContentHolder>
-                              </Row>
-                            </Box>
-                          </Col>
-                        </Row>
-                      </LayoutWrapper>
-                      <LayoutWrapper>
-                      <Row style={rowStyle} gutter={gutter} justify="start">
-                          <Col md={12} sm={12} xs={24} style={colStyle}>
-                            <Box
-                              title={<IntlMessages id="uiElements.cards.loadingCard" />}
-                            >
-                              <ContentHolder>
-                              <div className="custom-card">
-                                    <h3>
-                                      {<IntlMessages id="uiElements.cards.europeStreetBeat" />}
-                                    </h3>
-                                  </div>
+                        <Col span={24} style={colStyle}>
+                          <Box
+                            title={<IntlMessages id="uiElements.cards.gridCard" />}
+                          >
+                            <Row>
+                              <ContentHolder style={{ overflow: 'hidden' }}>
+                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
+                                  <Card
+                                    title={<IntlMessages id="uiElements.cards.Bitmex" />}
+                                  >
+                                    {<IntlMessages id="uiElements.cards.cardContent" />}
+                                  </Card>
+                                </Col>
+                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
+                                  <Card
+                                    title={<IntlMessages id="uiElements.cards.Bitfinex" />}
+                                  >
+                                    {<IntlMessages id="uiElements.cards.cardContent" />}
+                                  </Card>
+                                </Col>
+                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
+                                  <Card
+                                    title={<IntlMessages id="uiElements.cards.Cexio" />}
+                                  >
+                                    {<IntlMessages id="uiElements.cards.cardContent" />}
+                                  </Card>
+                                </Col>
                               </ContentHolder>
-                            </Box>
-                          </Col>
+                            </Row>
+                            <Row>
+                              <ContentHolder style={{ overflow: 'hidden' }}>
+                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
+                                  <Card
+                                    title={<IntlMessages id="uiElements.cards.Bitmex" />}
+                                  >
+                                    {<IntlMessages id="uiElements.cards.cardContent" />}
+                                  </Card>
+                                </Col>
+                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
+                                  <Card
+                                    title={<IntlMessages id="uiElements.cards.Bitfinex" />}
+                                  >
+                                    {<IntlMessages id="uiElements.cards.cardContent" />}
+                                  </Card>
+                                </Col>
+                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
+                                  <Card
+                                    title={<IntlMessages id="uiElements.cards.Cexio" />}
+                                  >
+                                    {<IntlMessages id="uiElements.cards.cardContent" />}
+                                  </Card>
+                                </Col>
+                              </ContentHolder>
+                            </Row>
+                          </Box>
+                        </Col>
+                      </Row>
+                    </LayoutWrapper>
+                    {/* To dispaly MPS status */}
+                    <LayoutContentWrapper>
+                      <TableDemoStyle className="isoLayoutContent" >
+                        <IntlMessages id="uiElements.cards.mps" />
+                        <Tabs className="isoTableDisplayTab">
+                          <MpsTable />
+                        </Tabs>
+                      </TableDemoStyle>
+                    </LayoutContentWrapper>
+                    {/* To display logs */}
+                    <SpreadComOrders />
 
-                          <Col md={12} sm={12} xs={24} style={colStyle}>
-                            <Box
-                              title={
-                                <IntlMessages id="uiElements.cards.customizedContentTitle" />
-                              }
-                            >
-                              <ContentHolder>
-                                <Card bodyStyle={{ padding: 0 }}>
-                                  <div className="custom-image">
-                                    
-                                  </div>
-                                  <div className="custom-card">
-                                    <h3>
-                                      {<IntlMessages id="uiElements.cards.europeStreetBeat" />}
-                                    </h3>
-                                  </div>
-                                </Card>
-                              </ContentHolder>
-                            </Box>
-                          </Col>
-                        </Row>
-                      </LayoutWrapper>
-                                        
-                      {/* <AppRouter url={url} /> */}
-                    </Content>
-                    <Footer
-                      style={{
-                        background: '#ffffff',
-                        textAlign: 'center',
-                        borderTop: '1px solid #ededed'
-                      }}
-                    >
-                      {siteConfig.footerText}
-                    </Footer>
-                  </Layout>
+                    {/* <AppRouter url={url} /> */}
+                  </Content>
+                  <Footer
+                    style={{
+                      background: '#ffffff',
+                      textAlign: 'center',
+                      borderTop: '1px solid #ededed'
+                    }}
+                  >
+                    {siteConfig.footerText}
+                  </Footer>
                 </Layout>
-                
               </Layout>
-            </AppHolder>
-          </ThemeProvider>
-       
+
+            </Layout>
+          </AppHolder>
+        </ThemeProvider>
+
       </LocaleProvider>
     );
   }
@@ -324,5 +306,5 @@ export default connect(
     selectedTheme: state.ThemeSwitcher.changeThemes.themeName,
     height: state.App.height
   }),
-  { logout, toggleAll,TableViews, tableinfos, dataList }
+  { logout, toggleAll, TableViews, tableinfos, dataList }
 )(App);

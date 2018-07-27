@@ -322,7 +322,7 @@
   "uiElements.cards.loadingCardSubTitle":
     "Shows a loading indicator while the contents of the card is being fetched.",
   "uiElements.cards.whateverContent": "Whatever content",
-  "uiElements.cards.customizedContentTitle": "AUTOSPREAD LOG",
+  "uiElements.cards.customizedContentTitle": "AUTOSPREADER LOG",
   "uiElements.cards.customizedContent":
     "Shows a loading indicator while the contents of the card is being fetched.",
   "uiElements.cards.europeStreetBeat": "ORDER ID B65CCCCF-2841-4FCA-95EB-9DECA6914360 BITFINEX ORDER MATCHED: BUY 0.1 AT 6170.5",
@@ -482,6 +482,9 @@
   "uiElements.rating.otherCharacterSubTitle":
     "Replace the default star to other character like alphabet   digit   iconfont or even Chinese word.",
   "uiElements.tree.tree": "Tree",
+  "uiElements.cards.grid": "GRID",
+  "uiElements.cards.mps": "MPS STATUS",
+  "uiElements.cards.spread": "SPREAD CALCULATION",
   "uiElements.tree.basicExample": "Basic example",
   "uiElements.tree.basicExampleSubTitle":
     "The most basic usage   tell you how to use checkable   selectable   disabled   defaultExpandKeys   and etc.",
@@ -609,12 +612,12 @@
     "Apartment   suite   unit etc. (optional",
   "checkout.billingform.checkbox": "Create an account?",
   "antTable.title.image": "Image",
-  "antTable.title.firstName": "Exchanges",
-  "antTable.title.lastName": "Balances",
-  "antTable.title.city": "Bid",
-  "antTable.title.street": "Ask",
-  "antTable.title.email": "Last Updated",
-  "antTable.title.dob": "Bitfinex",
+  "antTable.title.exchange": "Exchanges",
+  "antTable.title.balance": "Balances",
+  "antTable.title.bid": "Bid",
+  "antTable.title.ask": "Ask",
+  "antTable.title.lastupdate": "Last Updated",
+  "antTable.title.bitfinex": "Bitfinex",
   "antTable.title.bitmex": "Bitmex",
   "antTable.title.cexio": "Cexio",
   "antTable.title.flyer": "Flyer",
