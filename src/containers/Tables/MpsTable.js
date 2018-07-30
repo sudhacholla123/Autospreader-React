@@ -3,23 +3,15 @@ import firebase from 'firebase';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
-let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk", "cexio_euro"];
+let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk"];
 let currency_list = ["GBPUSD", "JPYUSD", "EURUSD"]
-var fiat_values = ''
-var buildString = "", date = "", date_needed = "", rate = "", index = "";
 
 class card extends React.Component {
     constructor(props) {
         super()
         this.state = {
-            mps_values: '',
-            latency_array: [],
-            mps: '',
-            mps_array: [],
-            mps_fx_arr: [],
-            mps_date: '',
-            fiat_values: '',
-            logs: ''
+            mps_status_arr: {},
+            fiat_values: []
         }
     }
 
@@ -28,91 +20,93 @@ class card extends React.Component {
         //fetching mps and latency values from firebase (url, exc:"bitmex")
         for (let ex = 0; ex < exchange_list.length; ex++) {
             let exc = exchange_list[ex]
-            var mpsValuesRef = firebase.database().ref(exc);
+            let mpsValuesRef = firebase.database().ref(exc);
             mpsValuesRef.on('value', snapshot => {
-                this.setState({
-                    mps_values: snapshot.val()
-                });
-                this.state.latency_array[ex] = this.state.mps_values
-                var latency = parseFloat(this.state.mps_values.latency).toFixed(2)
-                var mps = parseFloat(this.state.mps_values.mps).toFixed(2)
-                this.state.latency_array[ex].exchange = exchange_list[ex]
-                this.state.latency_array[ex].latency1 = latency
-                this.state.latency_array[ex].mps1 = mps
-                // console.log("starrt")
-                var rateRef = firebase.database().ref("data_points/fiat_currencies");
-                rateRef.on('value', snapshot => {
-                    this.setState({
-                        fiat_values: snapshot.val()
-                    });
-                    fiat_values = this.state.fiat_values
-                    // console.log("here1")
-                    //getting corresponding fx and fx_update_time to particular exchange
-                    // if (this.state.latency_array.some(item => "coinfloor_uk" === item.exchange)) {
-                    //     index = this.getIndex("coinfloor_uk", this.state.latency_array, "exchange")
-                    //     for (var key in fiat_values) {
-                    //         if (key === "GBPUSD") {
-                    //             buildString = buildString + key;
-                    //             date_needed = new Date(fiat_values[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
-                    //             rate = fiat_values[key].rate
-                    //         }
-                    //         this.state.latency_array[index].date_needed = date_needed;
-                    //         this.state.latency_array[index].rate = rate
+                let mps_values = snapshot.val()
+                mps_values.exchanges = exc
+                mps_values.latency = parseFloat(mps_values.latency).toFixed(2)
+                mps_values.mps = parseFloat(mps_values.mps).toFixed(2)
 
-                    //     }
-                    // }
-                    // // console.log("here2")
-                    // if (this.state.latency_array.some(item => "flyer" === item.exchange)) {
-                    //     index = this.getIndex("flyer", this.state.latency_array, "exchange")
-                    //     for (var key in fiat_values) {
-                    //         if (key === "JPYUSD") {
-                    //             buildString = buildString + key;
-                    //             date_needed = new Date(fiat_values[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
-                    //             rate = fiat_values[key].rate
-                                
-                    //         }
-                    //         this.state.latency_array[index].date_needed = date_needed;
-                    //         this.state.latency_array[index].rate = rate
-                    //     }
-                    // }
-                    // // console.log("here3")
-                    // if (this.state.latency_array.some(item => "flyer_fx" === item.exchange)) {
-                    //     index = this.getIndex("flyer_fx", this.state.latency_array, "exchange")
-                    //     for (var key in fiat_values) {
-                    //         if (key === "JPYUSD") {
-                    //             buildString = buildString + key;
-                    //             date_needed = new Date(fiat_values[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
-                    //             rate = fiat_values[key].rate
-                    //             break;
-                    //         }
-                    //         this.state.latency_array[index].date_needed = date_needed;
-                    //         this.state.latency_array[index].rate = rate
-                    //     }
-                    // }
-
-                    // if (this.state.latency_array.some(item => "cexio_euro" === item.exchange)) {
-                    //     // console.log("here4")
-                    //     index = this.getIndex("cexio_euro", this.state.latency_array, "exchange")
-                    //     for (var key in fiat_values) {
-                    //         if (key === "EURUSD") {
-                    //             buildString = buildString + key;
-                    //             date_needed = new Date(fiat_values[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
-                    //             rate = fiat_values[key].rate
-                                
-                    //         }
-                    //         this.state.latency_array[index].date_needed = date_needed;
-                    //         this.state.latency_array[index].rate = rate
-                    //     }
-                    // }
-                    // this.build_string_from_dict(fiat_values)
-                    // console.log("here5")
-                    // console.log(this.state.latency_array)
-                })
+                let mps_status_arr = {
+                    ...this.state.mps_status_arr,
+                    [exc]: mps_values
+                };
+                this.setState({ mps_status_arr })
             })
- 
+            
+            let rateRef = firebase.database().ref("data_points/fiat_currencies");
+            rateRef.on('value', snapshot => {
+                this.setState({fiat_values:snapshot.val()})
+            })
         }
+
     }
-    //function returns paerticular index of the exchange
+    flattenObject() {
+        let data = this.state.mps_status_arr;
+        let mps_status = [];
+        Object.keys(data).forEach((key) => {
+            mps_status.push(data[key]);
+        })
+        return mps_status;
+    }
+
+    Foreign_X_Cal() {
+        let index = '', rate = '', date_needed = '', buildString = ''
+        let fiat_currencies = this.state.fiat_values
+        let mps_status_arr = this.flattenObject()
+        if (mps_status_arr.some(item => "coinfloor_uk" === item.exchanges)) {
+            index = this.getIndex("coinfloor_uk", mps_status_arr, "exchanges")
+            //hasOwnProperty
+            for (let key in fiat_currencies) {
+                if (key === "GBPUSD") {
+                    buildString = buildString + key;
+                    date_needed = new Date(fiat_currencies[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
+                    rate = fiat_currencies[key].rate
+                    mps_status_arr[index].date_needed = date_needed;
+                    mps_status_arr[index].rate = rate
+                }
+            }
+        }
+        if (mps_status_arr.some(item => "flyer" === item.exchanges)) {
+            index = this.getIndex("flyer", mps_status_arr, "exchanges")
+            for (let key in fiat_currencies) {
+                if (key === "JPYUSD") {
+                    buildString = buildString + key;
+                    date_needed = new Date(fiat_currencies[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
+                    rate = fiat_currencies[key].rate
+                    mps_status_arr[index].date_needed = date_needed;
+                    mps_status_arr[index].rate = rate
+                }
+            }
+        }
+        if (mps_status_arr.some(item => "flyer_fx" === item.exchanges)) {
+            index = this.getIndex("flyer_fx", mps_status_arr, "exchanges")
+            for (let key in fiat_currencies) {
+                if (key === "JPYUSD") {
+                    buildString = buildString + key;
+                    date_needed = new Date(fiat_currencies[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
+                    rate = fiat_currencies[key].rate
+                    mps_status_arr[index].date_needed = date_needed;
+                    mps_status_arr[index].rate = rate
+                }
+            }
+        }
+        if (mps_status_arr.some(item => "cexio_euro" === item.exchanges)) {
+            index = this.getIndex("cexio_euro", mps_status_arr, "exchanges")
+            for (let key in fiat_currencies) {
+                if (key === "EURUSD") {
+                    buildString = buildString + key;
+                    date_needed = new Date(fiat_currencies[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
+                    rate = fiat_currencies[key].rate
+                    mps_status_arr[index].date_needed = date_needed;
+                    mps_status_arr[index].rate = rate
+                }
+            }
+        }
+
+    }
+
+    //function returns particular index of the exchange
     getIndex(value, arr, prop) {
         for (var i = 0; i < arr.length; i++) {
             if (arr[i][prop] === value) {
@@ -121,39 +115,20 @@ class card extends React.Component {
         }
     }
 
-    // build_string_from_dict(fiat_values) {
-    //     for (var key in fiat_values) {
-    //         if (key === "GBPUSD") {
-    //             buildString = buildString + key ;
-    //             date_needed = new Date(fiat_values[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
-    //             rate = fiat_values[key].rate
-    //             if(this.state.latency_array.some(item => "coinfloor_uk" === item.exchange)) {
-
-    //             }  
-    //         } else if (key === "JPYUSD") {
-    //             buildString = buildString + key ;
-    //             date_needed = new Date(fiat_values[key].last_updated_time * 1e3).toISOString().slice(-13, -2);
-    //             rate = fiat_values[key].rate
-    //             if(this.state.latency_array.some(item => "flyer" === item.exchange)) {
-    //                 this.state.latency_array[3].date_needed = date_needed;
-    //                 this.state.latency_array[3].rate = rate
-    //             }  
-    //         }
-    //     }
-    // }
 
     render() {
+        let mps_status = this.flattenObject()
+        this.Foreign_X_Cal()
         return (
             <div>
                 <div>
-                    <card />
                     {/* rendering mps status table data */}
-                    <BootstrapTable data={this.state.latency_array}>
-                        <TableHeaderColumn isKey dataField='exchange'> Exchange</TableHeaderColumn>
+                    <BootstrapTable data={mps_status}>
+                        <TableHeaderColumn isKey dataField='exchanges'> Exchange</TableHeaderColumn>
                         <TableHeaderColumn dataField='rate'>FX</TableHeaderColumn>
                         <TableHeaderColumn dataField='date_needed'>FX UPDATE TIME</TableHeaderColumn>
-                        <TableHeaderColumn dataField='mps1'>MPS</TableHeaderColumn>
-                        <TableHeaderColumn dataField='latency1'>LAT</TableHeaderColumn>
+                        <TableHeaderColumn dataField='mps'>MPS</TableHeaderColumn>
+                        <TableHeaderColumn dataField='latency'>LAT</TableHeaderColumn>
                     </BootstrapTable>
                 </div>
             </div>

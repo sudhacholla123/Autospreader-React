@@ -1,0 +1,17 @@
+.display-linebreak {
+    white-space: pre-line;
+  }
+
+.cellStyling {
+    background-color: #d3d3d3;
+    text-indent: 100%;
+}
+
+.balance_style {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.danger_text {
+    color: red;
+}

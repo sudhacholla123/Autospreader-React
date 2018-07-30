@@ -12,36 +12,12 @@ import IntlMessages from '../../components/utility/intlMessages';
 var time_display = '';
 
 var append_list = [];
-var spreadlog_list = [];
-var holder_dict = [];
-var jsonString = '';
-var arr = [];
-let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk"];
-let currency_list = ["GBPUSD", "JPYUSD"]
-var newArr = [];
-var mps_array = [];
-
 
 class SpreadComOrders extends React.Component {
     constructor(props) {
         super()
         this.state = {
-            items: [],
-            items_array: [],
-            price: '',
-            position: '',
-            exchanges_array: [],
-            prices_array: [],
-            positions_array: [],
-            logs: '',
-            log_array: [],
-            holder: '',
-            latency: '',
-            latency_array: [],
-            mps: '',
-            mps_array: [],
-            mps_fx_arr: [],
-            mps_date: ''
+            spread_list: [],
         }
     }
 
@@ -49,12 +25,11 @@ class SpreadComOrders extends React.Component {
         //Fetching data from firebase : general_completed_working_orders
         const spreadRef = firebase.database().ref("general_completed_working_orders").limitToLast(50);
         spreadRef.on('value', snapshot => {
-            this.setState({
-                items: snapshot.val()
-            })
+            let items = snapshot.val()
+            let spreadlog_list = []
             //Formatting unix timestamp to UTC date
-            for (var item in this.state.items) {
-                spreadlog_list.unshift(this.state.items[item]);
+            for (var item in items) {
+                spreadlog_list.unshift(items[item]);
             }
             spreadlog_list.sort(function (first, second) {
                 return second.server_time - first.server_time;
@@ -94,12 +69,11 @@ class SpreadComOrders extends React.Component {
                 spreadlog_list[i].spread = spread_to_show
                 spreadlog_list[i].time_to_display = time_display
             }
+            this.setState({ spread_list: spreadlog_list })
         })
-        // -----------------------------------------------------------------------------------------------------------------------    
         //fetching autospreader log values from firebase
         var autospreaderRef = firebase.database().ref("log/general").limitToLast(100);
         autospreaderRef.on('value', snapshot => {
-            // console.log(snapshot.val());
             this.setState({
                 logs: snapshot.val()
             });
@@ -110,20 +84,8 @@ class SpreadComOrders extends React.Component {
             append_list.sort(function (first, second) {
                 return second.time_unix - first.time_unix;
             });
+            this.forceUpdate()
         })
-        //-----------------------------------------------------------------------------------------------------------------------
-        //MPS Table
-        for (let ex = 0; ex < exchange_list.length; ex++) {
-            let exc = exchange_list[ex]
-
-            var latencyRef = firebase.database().ref(exc);
-            latencyRef.on('value', snapshot => {
-                this.setState({
-                    latency: parseFloat(snapshot.val().latency).toFixed(2),
-                    mps: parseFloat(snapshot.val().mps).toFixed(2)
-                });
-            })
-        }
     }
 
     render() {
@@ -147,7 +109,7 @@ class SpreadComOrders extends React.Component {
                                 title={<IntlMessages id="uiElements.cards.loadingCard" />}>
                                 <ContentHolder>
                                     <div>
-                                        {spreadlog_list.map(i => <Panel> <li key={i.id}><b> {i.time_to_display} | {i.external_working_id}</b>
+                                        {this.state.spread_list.map(i => <Panel> <li key={i.id}><b> {i.time_to_display} | {i.external_working_id}</b>
                                             <p>{i.plus_minus}{i.work.quantity}(QTY) | {i.spread}% (SPREAD) {i.work.name}(WORKING) | {i.work.price}(W-PRICE)
                                         {i.hedge.name}(HEDGE) | {i.hedge.price}(H-PRICE)</p></li></Panel>)}
                                     </div>
@@ -161,7 +123,8 @@ class SpreadComOrders extends React.Component {
                                 {/* {dispalying autospreader logs} */}
                                 <ContentHolder>
                                     <div>
-                                        {append_list.map(i => <Panel><li key={i}> {i.time_readable} | {i.text} </li></Panel>)}
+                                        {
+                                            append_list.map(i => <Panel><li key={i}> {i.time_readable} | {i.text} </li></Panel>)}
                                     </div>
                                 </ContentHolder>
                             </Box>

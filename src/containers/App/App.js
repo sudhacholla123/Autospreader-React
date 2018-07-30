@@ -43,6 +43,7 @@ import AutospreaderData from '../Tables/AutospreaderData';
 import SpreadComOrders from '../Tables/SpreadComOrders'
 import MpsTable from '../Tables/MpsTable'
 import SpreadCal from '../Tables/SpreadCal';
+import Clock from 'react-live-clock';
 
 
 const dataList = new fakeData(5);
@@ -64,6 +65,7 @@ export class App extends Component {
     return <Component tableInfo={tableInfo} dataList={dataList} />;
   }
   render() {
+    
     const { url } = this.props.match;
     const { locale, selectedTheme, height } = this.props;
     const currentAppLocale = AppLocale[locale];
@@ -111,9 +113,9 @@ export class App extends Component {
                     }}
                   >
                     <LayoutContentWrapper>
-
                       <TableDemoStyle className="isoLayoutContent">
                         <IntlMessages id="uiElements.cards.grid" />
+                        <div style={{align:'right'}}>Current Time (UTC):{<Clock format={'HH:mm:ss'} ticking={true} timezone={'UTC'}/>}</div>
                         <Tabs className="isoTableDisplayTab" >
 
                           {/* {tableinfos.map(tableInfo => (
@@ -123,14 +125,6 @@ export class App extends Component {
                           ))} */}
                           {/* To dispaly Grid */}
                           <AutospreaderData />
-                        </Tabs>
-                      </TableDemoStyle>
-                    </LayoutContentWrapper>
-                    <LayoutContentWrapper>
-                      <TableDemoStyle className="isoLayoutContent" >
-                        <IntlMessages id="uiElements.cards.spread" />
-                        <Tabs className="isoTableDisplayTab">
-                          <SpreadCal />
                         </Tabs>
                       </TableDemoStyle>
                     </LayoutContentWrapper>

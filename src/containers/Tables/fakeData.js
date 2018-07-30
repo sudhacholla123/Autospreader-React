@@ -101,7 +101,7 @@ const tableData = JSON.parse(
 );
 // console.log(tableData);
 
-const sortOption = {};
+// const sortOption = {};
 class fakeData {
   constructor(size) {
     this.size = size || 2000;
