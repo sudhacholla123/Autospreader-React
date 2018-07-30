@@ -31,40 +31,40 @@ const columns = [
     render: object => renderCell(object, 'ImageCell', 'avatar')
   },
   {
-    title: <IntlMessages id="antTable.title.firstName" />,
-    key: 'firstName',
+    title: <IntlMessages id="antTable.title.exchange" />,
+    key: 'exchange',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'firstName')
+    render: object => renderCell(object, 'TextCell', 'exchange')
   },
   {
-    title: <IntlMessages id="antTable.title.lastName" />,
-    key: 'lastName',
+    title: <IntlMessages id="antTable.title.balance" />,
+    key: 'balance',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'lastName')
+    render: object => renderCell(object, 'TextCell', 'balance')
   },
   {
-    title: <IntlMessages id="antTable.title.city" />,
-    key: 'city',
+    title: <IntlMessages id="antTable.title.bid" />,
+    key: 'bid',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'city')
+    render: object => renderCell(object, 'TextCell', 'bid')
   },
   {
-    title: <IntlMessages id="antTable.title.street" />,
-    key: 'street',
+    title: <IntlMessages id="antTable.title.ask" />,
+    key: 'ask',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'street')
+    render: object => renderCell(object, 'TextCell', 'ask')
   },
   {
-    title: <IntlMessages id="antTable.title.email" />,
-    key: 'email',
+    title: <IntlMessages id="antTable.title.lastupdate" />,
+    key: 'lastupdate',
     width: 100,
-    render: object => renderCell(object, 'LinkCell', 'email')
+    render: object => renderCell(object, 'TextCell', 'lastupdate')
   },
   {
-    title: <IntlMessages id="antTable.title.dob" />,
-    key: 'date',
+    title: <IntlMessages id="antTable.title.bitfinex" />,
+    key: 'bitfinex',
     width: 100,
-    render: object => renderCell(object, 'DateCell', 'date')
+    render: object => renderCell(object, 'TextCell', 'bitfinex')
   },
   {
     title: <IntlMessages id="antTable.title.bitmex" />,
@@ -72,7 +72,6 @@ const columns = [
     width: 100,
     render: object => renderCell(object, 'TextCell', 'bitmex')
   },
- 
   {
     title: <IntlMessages id="antTable.title.cexio" />,
     key: 'cexio',
@@ -91,33 +90,8 @@ const columns = [
     width: 100,
     render: object => renderCell(object, 'TextCell', 'flyerfx')
   }
-
-
 ];
 const smallColumns = [columns[1], columns[2], columns[3], columns[4], columns[5], columns[6],columns[7],columns[8],columns[9],columns[10]];
-// const sortColumns = [
-//   { ...columns[1], sorter: true },
-//   { ...columns[2], sorter: true },
-//   { ...columns[3], sorter: true },
-//   { ...columns[4], sorter: true },
-// ];
-// const editColumns = [
-//   columns[1],
-//   columns[2],
-//   columns[3],
-//   columns[4]
-// ];
-// const groupColumns = [
-//   columns[0],
-//   {
-//     title: 'Name',
-//     children: [columns[1], columns[2]]
-//   },
-//   {
-//     title: 'Address',
-//     children: [columns[3], columns[4]]
-//   }
-// ];
 const tableinfos = [
   {
     title: 'GRID',

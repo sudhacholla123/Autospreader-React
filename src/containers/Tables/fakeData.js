@@ -1,104 +1,70 @@
+
 const tableData = JSON.parse(
   `[{
   "id": 0,
   "key": 0,
-  "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/bluefx_/128.jpg",
-  "city": "6178.9 ",
-  "email": "12:10:29.91 ",
-  "firstName": "BITFINEX",
-  "lastName": "BTC 15.64",
-  "street": "6177.4",
-  "zipCode": "52677",
-  "date": " ",
+  "exchange": "BITFINEX",
+  "balance": "BTC 15.64",
+  "bid": "6177.4",
+  "ask": "52677",
+  "lastupdate": "12:10:29.91 ",
+  "bitfinex": "6178.9 ",
   "cexio":"0.02",
   "bitmex":"0.01 ",
   "flyer":"0.14",
-  "flyerfx":"-0.14",
-  "bs": "back-end optimize e-markets",
-  "catchPhrase": "Devolved heuristic focus group",
-  "companyName": "Kessler LLC",
-  "words": "dignissimos et natus",
-  "sentence": "Illum molestiae saepe eaque odit magnam veritatis eligendi est qui."
+  "flyerfx":"-0.14"
 }, {
   "id": 1,
   "key": 1,
-  "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/jnmnrd/128.jpg",
-  "city": "6138.9 ",
-  "email": "12:10:58.04",
-  "firstName": "BITMEX",
-  "lastName": "BTC 6.45",
-  "street": "6178.4 ",
-  "zipCode": "64903",
-  "date": "-0.02",
-  "cexio":"0.04 ",
-  "bitmex":" ",
+  "exchange": "BITMEX",
+  "balance": "BTC 15.64",
+  "bid": "6177.4",
+  "ask": "52677",
+  "lastupdate": "12:10:29.91 ",
+  "bitfinex": "6178.9 ",
+  "cexio":"0.02",
+  "bitmex":"0.01 ",
   "flyer":"0.14",
-  "flyerfx":"-0.14",
-  "bs": "seamless mesh vortals",
-  "catchPhrase": "Managed background migration",
-  "companyName": "Doyle and Sons",
-  "words": "voluptatum dignissimos possimus",
-  "sentence": "Aut similique a qui."
+  "flyerfx":"-0.14"
 }, {
   "id": 2,
   "key": 2,
-  "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/damenleeturks/128.jpg",
-  "city": "6978.9 ",
-  "email": "12:11:16.00 ",
-  "firstName": "CEXIO",
-  "lastName": "BTC 0.34",
-  "street": "6185.0",
-  "zipCode": "46659",
-  "date": "0.06",
-  "cexio":" ",
-  "bitmex":"-0.03",
-  "flyer":"0.02 ",
-  "flyerfx":"-0.14",
-  "bs": "bleeding-edge enhance e-commerce",
-  "catchPhrase": "Public-key intermediate hardware",
-  "companyName": "Champlin and Sons",
-  "words": "est est corrupti",
-  "sentence": "Qui consequatur aut dignissimos error qui praesentium sit et unde."
+  "exchange": "BITFINEX",
+  "balance": "BTC 15.64",
+  "bid": "6177.4",
+  "ask": "52677",
+  "lastupdate": "12:10:29.91 ",
+  "bitfinex": "6178.9 ",
+  "cexio":"0.02",
+  "bitmex":"0.01 ",
+  "flyer":"0.14",
+  "flyerfx":"-0.14"
 }, {
   "id": 3,
   "key": 3,
-  "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/keryilmaz/128.jpg",
-  "city": "6178",
-  "email": "12:11:16.00 ",
-  "firstName": "FLYER",
-  "lastName": "BTC 7.99",
-  "street": "6174.0",
-  "zipCode": "22101",
-  "date": "0.04",
+  "exchange": "BITFINEX",
+  "balance": "BTC 15.64",
+  "bid": "6177.4",
+  "ask": "52677",
+  "lastupdate": "12:10:29.91 ",
+  "bitfinex": "6178.9 ",
   "cexio":"0.02",
-  "bitmex":"0.03",
-  "flyer":" ",
-  "flyerfx":"-0.11 ",
-  "bs": "24/7 orchestrate communities",
-  "catchPhrase": "Team-oriented fault-tolerant help-desk",
-  "companyName": "Shields Inc",
-  "words": "aut perspiciatis totam",
-  "sentence": "Ut omnis et."
+  "bitmex":"0.01 ",
+  "flyer":"0.14",
+  "flyerfx":"-0.14"
 }, {
   "id": 4,
   "key": 4,
-  "avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/romanbulah/128.jpg",
-  "city": "6178.9 ",
-  "email": "12:11:32.82 ",
-  "firstName": "FLYER FX",
-  "lastName": "BTC 7.99",
-  "street": "6178.2 ",
-  "zipCode": "93686",
-  "date": "0.14",
+  "exchange": "BITFINEX",
+  "balance": "BTC 15.64",
+  "bid": "6177.4",
+  "ask": "52677",
+  "lastupdate": "12:10:29.91 ",
+  "bitfinex": "6178.9 ",
   "cexio":"0.02",
-  "bitmex":"0.03",
-  "flyer":"0.1",
-  "flyerfx":" ",
-  "bs": "sticky e-enable metrics",
-  "catchPhrase": "Re-engineered intangible methodology",
-  "companyName": "Hoeger Inc",
-  "words": "iusto ut voluptatem",
-  "sentence": "Praesentium sit exercitationem aut."
+  "bitmex":"0.01 ",
+  "flyer":"0.14",
+  "flyerfx":"-0.14"
 },   {
   "id": 8,
   "key": 8,
@@ -133,7 +99,9 @@ const tableData = JSON.parse(
   "sentence": "Culpa dolore nisi vero non."
 }]`,
 );
-const sortOption = {};
+// console.log(tableData);
+
+// const sortOption = {};
 class fakeData {
   constructor(size) {
     this.size = size || 2000;
@@ -165,30 +133,6 @@ class fakeData {
   getSize() {
     return this.size;
   }
-  // getSortAsc(sortKey) {
-  //   sortOption.sortKey = sortKey;
-  //   sortOption.sortDir = 'ASC';
-  //   return this.datas.sort(this.sort);
-  // }
-  // getSortDesc(sortKey) {
-  //   sortOption.sortKey = sortKey;
-  //   sortOption.sortDir = 'DESC';
-  //   return this.datas.sort(this.sort);
-  // }
-  // sort(optionA, optionB) {
-  //   const valueA = optionA[sortOption.sortKey].toUpperCase();
-  //   const valueB = optionB[sortOption.sortKey].toUpperCase();
-  //   let sortVal = 0;
-  //   if (valueA > valueB) {
-  //     sortVal = 1;
-  //   }
-  //   if (valueA < valueB) {
-  //     sortVal = -1;
-  //   }
-  //   if (sortVal !== 0 && sortOption.sortDir === 'DESC') {
-  //     return sortVal * (-1);
-  //   }
-  //   return sortVal;
-  // }
+  
 }
 export default fakeData;
