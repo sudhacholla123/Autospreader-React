@@ -42,6 +42,9 @@ class Topbar extends Component {
             <Button type="default" className="isoOrderBtn">
               Restart Application
             </Button>
+            <Button type="default" className="isoOrderBtn">
+              Restart Excel API
+            </Button>
           </div>
 
           <ul className="isoRight">

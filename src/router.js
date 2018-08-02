@@ -10,6 +10,7 @@ import SpreadComOrders from "./containers/Tables/SpreadComOrders"
 import card from "./containers/Tables/card"
 import MpsTable from "./containers/Tables/MpsTable"
 import spreadCal from "./containers/Tables/SpreadCal";
+import Orders from "./containers/Tables/Orders"
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   <Route
@@ -97,6 +98,10 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
          <Route
           path="/spread"
           component = {spreadCal}
+        />
+         <Route
+          path="/orders"
+          component = {Orders}
         />
         <RestrictedRoute
           path="/dashboard"

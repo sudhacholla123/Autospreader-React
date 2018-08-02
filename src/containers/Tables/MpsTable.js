@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
-let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk"];
+let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk", "cexio_euro"];
 let currency_list = ["GBPUSD", "JPYUSD", "EURUSD"]
 
 class card extends React.Component {
@@ -33,10 +33,10 @@ class card extends React.Component {
                 };
                 this.setState({ mps_status_arr })
             })
-            
+
             let rateRef = firebase.database().ref("data_points/fiat_currencies");
             rateRef.on('value', snapshot => {
-                this.setState({fiat_values:snapshot.val()})
+                this.setState({ fiat_values: snapshot.val() })
             })
         }
 
@@ -50,6 +50,7 @@ class card extends React.Component {
         return mps_status;
     }
 
+    //calculating foreign exchange and fx update time in MPS Status
     Foreign_X_Cal() {
         let index = '', rate = '', date_needed = '', buildString = ''
         let fiat_currencies = this.state.fiat_values
