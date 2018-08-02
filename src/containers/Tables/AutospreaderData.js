@@ -4,7 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import './styleGrid.css'
 
-let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk"]
+let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk", "cexio_euro"]
 let bal_str = '';
 
 class AutospreaderData extends React.Component {
@@ -15,7 +15,6 @@ class AutospreaderData extends React.Component {
     }
   }
   componentDidMount() {
-    let prices_array = [];
     for (let ex = 0; ex < exchange_list.length; ex++) {
       let exc = exchange_list[ex]
       //fetching all the firebase data into priceRef
@@ -46,8 +45,9 @@ class AutospreaderData extends React.Component {
         this.setState({ grid_array })
       })
     }
-    console.log(new Date().toUTCString()) 
+    console.log(new Date().toUTCString())
   }
+  //Calculating spread for exchanges based on ask and bid values
   spreadCal(arr) {
     let spread_exc_arr = []
     for (let i in arr) {
@@ -62,7 +62,7 @@ class AutospreaderData extends React.Component {
         var first_ex_avg = (first_ex_ask + first_ex_bid) / 2;
         var second_ex_avg = (second_ex_ask + second_ex_bid) / 2;
         let spread = (((first_ex_avg - second_ex_avg) * 100) / ((first_ex_avg + second_ex_avg) / 2)).toFixed(2);
-        if(i==j){
+        if (i == j) {
           min_array[j] = Infinity;
         } else {
           min_array[j] = spread
@@ -72,7 +72,7 @@ class AutospreaderData extends React.Component {
     }
     return spread_exc_arr
   }
-
+  
   flattenObject() {
     let data = this.state.grid_array;
     let prices_array = [];
@@ -82,24 +82,27 @@ class AutospreaderData extends React.Component {
     return prices_array;
   }
 
+  //date is converted from unix timestamp to UTC 
   dateFormatter(fieldValue, row, rowIdx, colIdx) {
     let a = fieldValue.split('.');
     let b = a[0].split(':');
-    let Dat1 = new Date();           
+    let Dat1 = new Date();
     let Dat2 = Date.UTC(Dat1.getUTCFullYear(), Dat1.getUTCMonth(), Dat1.getUTCDate(), b[0], b[1], b[2], a[1]);
-    return Number(Dat1) - Dat2 > 2*60*1000 ? 'danger_text' : '';
+    return Number(Dat1) - Dat2 > 2 * 60 * 1000 ? 'danger_text' : '';
   }
 
+  //Displaying balances column in grid
   positionsFormatter(cell, row) {
     // console.log({cell});
     let dat = ["<ul class='balance_style'>"];
     Object.keys(cell).forEach(key => {
-      dat.push(`<li>${key} ${cell[key].toFixed(2)}</li>`) 
+      dat.push(`<li>${key} ${cell[key].toFixed(2)}</li>`)
     })
     dat.push('</ul>')
     return dat.join("");
   }
-  
+
+  //Makes the cells in grid as grey if same exchange
   columnClassNameFormat(fieldValue, row, rowIdx, colIdx) {
     // fieldValue is column value
     // row is whole row object
@@ -111,14 +114,14 @@ class AutospreaderData extends React.Component {
 
   render() {
     let prices_array = this.flattenObject()
-    
     let spread = this.spreadCal(prices_array)
 
+    //array with both data of exchanges(ask,bid) and also calculations of spread based on ask and bid
     let grid = [];
     prices_array.forEach((itm, i) => {
       grid.push(Object.assign({}, itm, spread[i]));
     });
-    
+
 
     return (
       <div>
@@ -128,12 +131,12 @@ class AutospreaderData extends React.Component {
           <TableHeaderColumn dataField='bid' dataAlign="center">Bid </TableHeaderColumn>
           <TableHeaderColumn dataField='ask' dataAlign="center">Ask </TableHeaderColumn>
           <TableHeaderColumn dataField='date' dataAlign="center" columnClassName={this.dateFormatter} >Last Update </TableHeaderColumn>
-          <TableHeaderColumn dataField='0' columnClassName={ this.columnClassNameFormat } dataAlign="center">Bitfinex </TableHeaderColumn>
-          <TableHeaderColumn dataField='1' columnClassName={ this.columnClassNameFormat } dataAlign="center">Bitmex </TableHeaderColumn>
-          <TableHeaderColumn dataField='2' columnClassName={ this.columnClassNameFormat } dataAlign="center">Cexio </TableHeaderColumn>
-          <TableHeaderColumn dataField='3' columnClassName={ this.columnClassNameFormat } dataAlign="center">Flyer </TableHeaderColumn>
-          <TableHeaderColumn dataField='4' columnClassName={ this.columnClassNameFormat } dataAlign="center">Flyer_Fx </TableHeaderColumn>
-          <TableHeaderColumn dataField='5' columnClassName={ this.columnClassNameFormat } dataAlign="center">Coinfloor_uk</TableHeaderColumn>
+          <TableHeaderColumn dataField='0' columnClassName={this.columnClassNameFormat} dataAlign="center">Bitfinex </TableHeaderColumn>
+          <TableHeaderColumn dataField='1' columnClassName={this.columnClassNameFormat} dataAlign="center">Bitmex </TableHeaderColumn>
+          <TableHeaderColumn dataField='2' columnClassName={this.columnClassNameFormat} dataAlign="center">Cexio </TableHeaderColumn>
+          <TableHeaderColumn dataField='3' columnClassName={this.columnClassNameFormat} dataAlign="center">Flyer </TableHeaderColumn>
+          <TableHeaderColumn dataField='4' columnClassName={this.columnClassNameFormat} dataAlign="center">Flyer_Fx </TableHeaderColumn>
+          <TableHeaderColumn dataField='5' columnClassName={this.columnClassNameFormat} dataAlign="center">Coinfloor_uk</TableHeaderColumn>
         </BootstrapTable>
       </div>
     )

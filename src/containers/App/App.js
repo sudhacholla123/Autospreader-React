@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout, LocaleProvider } from 'antd';
-import { IntlProvider } from 'react-intl';
 import { Debounce } from 'react-throttle';
 import WindowResizeListener from 'react-window-size-listener';
 import { ThemeProvider } from 'styled-components';
@@ -9,8 +8,6 @@ import authAction from '../../redux/auth/actions';
 import appActions from '../../redux/app/actions';
 import Sidebar from '../Sidebar/Sidebar';
 import Topbar from '../Topbar/Topbar';
-import ThemeSwitcher from '../../containers/ThemeSwitcher';
-import AppRouter from './AppRouter';
 import { siteConfig } from '../../settings';
 import { AppLocale } from '../../dashApp';
 import themes from '../../settings/themes';
@@ -23,14 +20,12 @@ import fakeData from '../Tables/fakeData';
 import { tableinfos } from '../Tables/fbTables/configs';
 import * as TableViews from '../Tables/antTables/tableViews/';
 
-
 import { Col, Row, Icon } from 'antd';
 import Input, {
   InputSearch,
   InputGroup,
   Textarea
 } from '../../components/uielements/input';
-import InputNumber from '../../components/uielements/InputNumber';
 import Select, { SelectOption } from '../../components/uielements/select';
 import PageHeader from '../../components/utility/pageHeader';
 import Box from '../../components/utility/box';
@@ -42,7 +37,8 @@ import Card from '../Uielements/Card/card.style';
 import AutospreaderData from '../Tables/AutospreaderData';
 import SpreadComOrders from '../Tables/SpreadComOrders'
 import MpsTable from '../Tables/MpsTable'
-import SpreadCal from '../Tables/SpreadCal';
+import Orders from '../Tables/Orders'
+import Sys_resources from '../Tables/Sys_resources';
 import Clock from 'react-live-clock';
 
 
@@ -65,7 +61,7 @@ export class App extends Component {
     return <Component tableInfo={tableInfo} dataList={dataList} />;
   }
   render() {
-    
+
     const { url } = this.props.match;
     const { locale, selectedTheme, height } = this.props;
     const currentAppLocale = AppLocale[locale];
@@ -112,10 +108,14 @@ export class App extends Component {
                       position: 'relative'
                     }}
                   >
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 20, paddingTop: 20, paddingRight: 45 }}>
+                      <Button type="primary" className="isoOrderBtn">
+                        <b>Current Time (UTC):  {<Clock format={'HH:mm:ss'} ticking={true} timezone={'UTC'} />}</b>
+                      </Button></div>
+                    <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 2 }}><Sys_resources /></div>
                     <LayoutContentWrapper>
                       <TableDemoStyle className="isoLayoutContent">
                         <IntlMessages id="uiElements.cards.grid" />
-                        <div style={{align:'right'}}>Current Time (UTC):{<Clock format={'HH:mm:ss'} ticking={true} timezone={'UTC'}/>}</div>
                         <Tabs className="isoTableDisplayTab" >
 
                           {/* {tableinfos.map(tableInfo => (
@@ -129,6 +129,7 @@ export class App extends Component {
                       </TableDemoStyle>
                     </LayoutContentWrapper>
                     <LayoutWrapper>
+
                       <PageHeader newProp="newPropValue">
                         <IntlMessages id="forms.input.header" />
                       </PageHeader>
@@ -206,72 +207,31 @@ export class App extends Component {
                           >
                             <Row>
                               <ContentHolder style={{ overflow: 'hidden' }}>
-                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                  <Card
-                                    title={<IntlMessages id="uiElements.cards.Bitmex" />}
-                                  >
-                                    {<IntlMessages id="uiElements.cards.cardContent" />}
-                                  </Card>
-                                </Col>
-                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                  <Card
-                                    title={<IntlMessages id="uiElements.cards.Bitfinex" />}
-                                  >
-                                    {<IntlMessages id="uiElements.cards.cardContent" />}
-                                  </Card>
-                                </Col>
-                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                  <Card
-                                    title={<IntlMessages id="uiElements.cards.Cexio" />}
-                                  >
-                                    {<IntlMessages id="uiElements.cards.cardContent" />}
-                                  </Card>
-                                </Col>
-                              </ContentHolder>
-                            </Row>
-                            <Row>
-                              <ContentHolder style={{ overflow: 'hidden' }}>
-                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                  <Card
-                                    title={<IntlMessages id="uiElements.cards.Bitmex" />}
-                                  >
-                                    {<IntlMessages id="uiElements.cards.cardContent" />}
-                                  </Card>
-                                </Col>
-                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                  <Card
-                                    title={<IntlMessages id="uiElements.cards.Bitfinex" />}
-                                  >
-                                    {<IntlMessages id="uiElements.cards.cardContent" />}
-                                  </Card>
-                                </Col>
-                                <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                                  <Card
-                                    title={<IntlMessages id="uiElements.cards.Cexio" />}
-                                  >
-                                    {<IntlMessages id="uiElements.cards.cardContent" />}
-                                  </Card>
-                                </Col>
+                                <Orders />
                               </ContentHolder>
                             </Row>
                           </Box>
                         </Col>
                       </Row>
                     </LayoutWrapper>
+
                     {/* To dispaly MPS status */}
                     <LayoutContentWrapper>
                       <TableDemoStyle className="isoLayoutContent" >
                         <IntlMessages id="uiElements.cards.mps" />
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 45 }}>
+                          Updated at:  {<Clock format={'HH:mm:ss'} ticking={true} timezone={'IST'} />} (Local Time)</div>
                         <Tabs className="isoTableDisplayTab">
                           <MpsTable />
                         </Tabs>
                       </TableDemoStyle>
                     </LayoutContentWrapper>
+
                     {/* To display logs */}
                     <SpreadComOrders />
-
                     {/* <AppRouter url={url} /> */}
                   </Content>
+
                   <Footer
                     style={{
                       background: '#ffffff',
@@ -283,11 +243,9 @@ export class App extends Component {
                   </Footer>
                 </Layout>
               </Layout>
-
             </Layout>
           </AppHolder>
         </ThemeProvider>
-
       </LocaleProvider>
     );
   }
