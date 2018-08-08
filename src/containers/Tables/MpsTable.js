@@ -2,6 +2,7 @@ import React from 'react'
 import firebase from 'firebase';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import AutospreaderData from './AutospreaderData';
 
 let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk", "cexio_euro"];
 let currency_list = ["GBPUSD", "JPYUSD", "EURUSD"]

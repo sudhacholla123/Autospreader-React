@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import './styleGrid.css'
+import MpsTable from './MpsTable'
 
 let exchange_list = ["bitfinex", "bitmex", "cexio", "flyer", "flyer_fx", "coinfloor_uk", "cexio_euro"]
 let bal_str = '';
@@ -125,7 +126,7 @@ class AutospreaderData extends React.Component {
 
     return (
       <div>
-        <BootstrapTable data={grid}>
+          <BootstrapTable data={grid}>
           <TableHeaderColumn isKey dataField='exchange'> Exchanges</TableHeaderColumn>
           <TableHeaderColumn dataField='balance' dataFormat={this.positionsFormatter} width='12%' >Balances </TableHeaderColumn>
           <TableHeaderColumn dataField='bid' dataAlign="center">Bid </TableHeaderColumn>

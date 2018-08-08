@@ -11,6 +11,7 @@ import card from "./containers/Tables/card"
 import MpsTable from "./containers/Tables/MpsTable"
 import spreadCal from "./containers/Tables/SpreadCal";
 import Orders from "./containers/Tables/Orders"
+import PlaceOrder from "./containers/Tables/PlaceOrder";
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
   <Route
@@ -102,6 +103,10 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
          <Route
           path="/orders"
           component = {Orders}
+        />
+        <Route
+          path="/placeorder"
+          component = {PlaceOrder}
         />
         <RestrictedRoute
           path="/dashboard"

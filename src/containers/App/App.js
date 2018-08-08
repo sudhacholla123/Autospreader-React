@@ -38,6 +38,7 @@ import AutospreaderData from '../Tables/AutospreaderData';
 import SpreadComOrders from '../Tables/SpreadComOrders'
 import MpsTable from '../Tables/MpsTable'
 import Orders from '../Tables/Orders'
+import PlaceOrder from '../Tables/PlaceOrder'
 import Sys_resources from '../Tables/Sys_resources';
 import Clock from 'react-live-clock';
 
@@ -108,10 +109,7 @@ export class App extends Component {
                       position: 'relative'
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 20, paddingTop: 20, paddingRight: 45 }}>
-                      <Button type="primary" className="isoOrderBtn">
-                        <b>Current Time (UTC):  {<Clock format={'HH:mm:ss'} ticking={true} timezone={'UTC'} />}</b>
-                      </Button></div>
+                   
                     <div style={{ display: 'flex', justifyContent: 'center', paddingBottom: 2 }}><Sys_resources /></div>
                     <LayoutContentWrapper>
                       <TableDemoStyle className="isoLayoutContent">
@@ -128,77 +126,22 @@ export class App extends Component {
                         </Tabs>
                       </TableDemoStyle>
                     </LayoutContentWrapper>
-                    <LayoutWrapper>
 
-                      <PageHeader newProp="newPropValue">
+                    <LayoutWrapper>
+                      <PageHeader>
                         <IntlMessages id="forms.input.header" />
                       </PageHeader>
                       <Row style={rowStyle} gutter={gutter} justify="start">
-                        <Col md={24} sm={24} xs={24} style={colStyle}>
-                          <Box
-                            subtitle={<IntlMessages id="forms.input.groupSubTitle" />}
-                          >
-                            <ContentHolder>
-                              <InputGroup size="large" style={{ marginBottom: '15px' }}>
-                                <Col span="6">
-                                  X
-                                    <Input defaultValue="" />
-                                </Col>
-                                <Col span="6">
-                                  Y
-                                    <Input defaultValue="" />
-                                </Col>
-                                <Col span="6">
-                                  <Col>WORK EX</Col>
-                                  <Select defaultValue="Working-Order">
-                                    <Option value="Zhejiang">Bitmex</Option>
-                                    <Option value="Jiangsu">Bitfinex</Option>
-                                    <Option value="Jiangsu">Cexio</Option>
-                                    <Option value="Jiangsu">Flyer</Option>
-                                  </Select>
-                                </Col>
-                                <Col span="6">
-                                  <Col>WORK TRADING</Col>
-                                  <Select defaultValue="Working-Order-Type">
-                                    <Option value="Zhejiang">Margin</Option>
-                                    <Option value="Jiangsu">Exchange</Option>
-                                  </Select>
-                                </Col>
-                              </InputGroup>
-                              <InputGroup compact style={{ marginBottom: '15px' }}>
-                                <Col span="6">
-                                  <Col>HEDGE EX</Col>
-                                  <Select defaultValue="Hedge-Order">
-                                    <Option value="Zhejiang">Bitmex</Option>
-                                    <Option value="Jiangsu">Bitfinex</Option>
-                                    <Option value="Jiangsu">Cexio</Option>
-                                    <Option value="Jiangsu">Flyer</Option>
-                                  </Select>
-                                </Col>
-                                <Col span="6">
-                                  <Col>HEDGE TRADING</Col>
-                                  <Select defaultValue="Hedge-Order-Type">
-                                    <Option value="Zhejiang">Margin</Option>
-                                    <Option value="Jiangsu">Exchange</Option>
-                                  </Select>
-                                </Col>
-                                <Col span="6">
-                                  REQUIRED SPREAD
-                                    <Input defaultValue="" />
-                                </Col>
-                                <Col span="6">
-                                  QUANTITY(BTC)
-                                    <Input defaultValue="" />
-                                </Col>
-                              </InputGroup>
-                            </ContentHolder>
-                            <Button type="primary" className="isoOrderBtn">
-                              Place Order
-                              </Button>
+                        <Col span={24} style={colStyle}>
+                          <Box>
+                            <Row>
+                              <PlaceOrder />
+                            </Row>
                           </Box>
                         </Col>
                       </Row>
                     </LayoutWrapper>
+
                     <LayoutWrapper>
                       <Row style={rowStyle} gutter={gutter} justify="start">
                         <Col span={24} style={colStyle}>
@@ -219,8 +162,8 @@ export class App extends Component {
                     <LayoutContentWrapper>
                       <TableDemoStyle className="isoLayoutContent" >
                         <IntlMessages id="uiElements.cards.mps" />
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 45 }}>
-                          Updated at:  {<Clock format={'HH:mm:ss'} ticking={true} timezone={'IST'} />} (Local Time)</div>
+                        {/* <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 45 }}>
+                          Updated at:  {<Clock format={'HH:mm:ss'} ticking={true} timezone={'Asia/India'} />} (Local Time)</div> */}
                         <Tabs className="isoTableDisplayTab">
                           <MpsTable />
                         </Tabs>

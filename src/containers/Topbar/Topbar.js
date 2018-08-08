@@ -9,6 +9,7 @@ import TopbarUser from "./topbarUser";
 import TopbarAddtoCart from "./topbarAddtoCart";
 import TopbarWrapper from "./topbar.style";
 import Button from "../../components/uielements/button";
+import Clock from 'react-live-clock';
 
 const { Header } = Layout;
 const { toggleCollapsed } = appActions;
@@ -52,12 +53,12 @@ class Topbar extends Component {
               <TopbarSearch locale={locale} />
             </li>
 
-            <li
-              onClick={() => this.setState({ selectedItem: "notification" })}
-              className="isoNotify"
-            >
-              <TopbarNotification locale={locale} />
-            </li>
+            // <li
+            //   onClick={() => this.setState({ selectedItem: "notification" })}
+            //   className="isoNotify"
+            // >
+            //   <TopbarNotification locale={locale} />
+            // </li>
 
             <li
               onClick={() => this.setState({ selectedItem: "message" })}
@@ -71,6 +72,18 @@ class Topbar extends Component {
             >
               <TopbarAddtoCart url={url} locale={locale} />
             </li> */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 20, paddingTop: 20, paddingRight: 45 }}>
+              <Button type="primary" className="isoOrderBtn">
+                <b>Current Time (UTC):  {<Clock format={'HH:mm:ss'} ticking={true} timezone={'UTC'} />}</b>
+              </Button>
+            </div>
+
+            <li
+              onClick={() => this.setState({ selectedItem: "notification" })}
+              className="isoNotify"
+            >
+              <TopbarNotification locale={locale} />
+            </li>
 
             <li
               onClick={() => this.setState({ selectedItem: "user" })}

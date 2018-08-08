@@ -184,7 +184,7 @@
     "There are three sizes of an Input box  large (42px  、default (35px   and small (30px  . Note  Inside of forms   only the large size is used.",
   "forms.input.groupTitle": "Input Group",
   "forms.input.groupSubTitle":
-    "CURRENT MAX QUANTITY: 10.0 AND MIN QUANTITY: -10.0 FOR Q/A",
+    "Choose template for strategy",
   "forms.input.autoSizingTitle": "Autosizing the height to fit the content",
   "forms.input.autoSizingSubTitle":
     "autosize prop for a textarea type of Input makes the height to automatically adjust based on the content. An options object can be provided to autosize to specify the minimum and maximum number of lines the textarea will automatically adjust.",
@@ -302,6 +302,7 @@
     "This will simply display a red badge   without a specific count.",
   "uiElements.badge.linkSomething": "Link something",
   "uiElements.cards.cards": "Cards",
+  "uiElements.cards.routinegrp": "Routine Group 1",
   "uiElements.cards.basicCard": "Basic card",
   "uiElements.cards.basicCardSubTitle":
     "A basic card containing a title   content and an extra corner content.",
@@ -344,7 +345,7 @@
     "More than one panel can be expanded at a time   the first panel is initialized to be active in this case. use   defaultActiveKey=  [keyNum]",
   "uiElements.collapse.text":
     "A dog is a type of domesticated animal. Known for its loyalty and faithfulness   it can be found as a welcome guest in many households across the world.",
-  "uiElements.collapse.headerOne": "This is panel header 1",
+  "uiElements.collapse.headerOne": "Create Stratagey",
   "uiElements.collapse.headerTwo": "This is panel header 2",
   "uiElements.collapse.headerThree": "This is panel header 3",
   "uiElements.collapse.headerNested": "This is panel nest panel",

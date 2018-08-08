@@ -124,7 +124,7 @@ class SpreadComOrders extends React.Component {
                                 <ContentHolder>
                                     <div>
                                         {
-                                            append_list.map(i => <Panel><li key={i}> {i.time_readable} <br/> {i.text} </li></Panel>)}
+                                            append_list.map(i => <Panel><li key={i}> {i.time_readable} | {i.text} </li></Panel>)}
                                     </div>
                                 </ContentHolder>
                             </Box>
